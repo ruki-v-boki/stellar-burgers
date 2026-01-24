@@ -3,6 +3,15 @@ import { TIngredient, TOrder, TOrdersData, TUser } from './types';
 
 const URL = process.env.BURGER_API_URL;
 
+// console.log('BURGER_API_URL:', URL);
+// console.log('Type of URL:', typeof URL);
+
+// console.log('Testing API connection...');
+// fetch(`${URL}/ingredients`)
+//   .then((res) => res.json())
+//   .then((data) => console.log('API Response:', data))
+//   .catch((err) => console.error('API Error:', err));
+
 const checkResponse = <T>(res: Response): Promise<T> =>
   res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 
