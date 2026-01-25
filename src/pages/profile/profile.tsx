@@ -4,8 +4,8 @@ import { FC, SyntheticEvent, useEffect, useState } from 'react';
 export const Profile: FC = () => {
   /** TODO: взять переменную из стора */
   const user = {
-    name: '',
-    email: ''
+    name: 'Vasya',
+    email: 'ya-email@test.ru' // добавил тестовые данные
   };
 
   const [formValue, setFormValue] = useState({
@@ -20,7 +20,7 @@ export const Profile: FC = () => {
       name: user?.name || '',
       email: user?.email || ''
     }));
-  }, [user]);
+  }, [user.name]); //ЗДЕСЬ БЫЛ ПРОСТО user это создавало бесконечный цикл!
 
   const isFormChanged =
     formValue.name !== user?.name ||
@@ -56,6 +56,4 @@ export const Profile: FC = () => {
       handleInputChange={handleInputChange}
     />
   );
-
-  return null;
 };
