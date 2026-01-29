@@ -6,28 +6,18 @@ import { RootState } from "../store";
 type TIngredientsState = {
     ingredients: TIngredient[],
     isLoading: boolean,
-    wasLoaded: boolean,
     error: string | null
 }
 
 const initialState: TIngredientsState = {
     ingredients: [],
     isLoading: false,
-    wasLoaded: false,
     error: null,
 }
 
 export const getIngredients = createAsyncThunk(
   'ingredients/get',
   getIngredientsApi,
-  {
-    condition: (_, { getState }) => {
-      const state = getState() as RootState;
-      const { wasLoaded, isLoading, ingredients } = state.ingredientsSlice;
-
-      return !wasLoaded && !isLoading && ingredients.length === 0;
-    }
-  }
 );
 
 const ingredientsSlice = createSlice({
@@ -42,7 +32,6 @@ const ingredientsSlice = createSlice({
             })
             .addCase(getIngredients.fulfilled, (state, action: PayloadAction<TIngredient[]>) => {
                 state.isLoading = false;
-                state.wasLoaded = true;
                 state.ingredients = action.payload;
             })
             .addCase(getIngredients.rejected, (state, action) => {
@@ -52,12 +41,10 @@ const ingredientsSlice = createSlice({
                 : 'Никто не знает в чём дело..';
             })
     },
-    selectors: {
-        ingredients: (state) => state.ingredients,
-        isLoading: (state) => state.isLoading,
-        error: (state) => state.error,
-    }
 })
-
-export const selectors = ingredientsSlice.selectors;
+// selectors:
+export const ingredientsSelector = (state:RootState) => state.ingredientsSlice.ingredients
+export const isLoadingSelector = (state:RootState) => state.ingredientsSlice.isLoading
+export const errorSelector = (state:RootState) => state.ingredientsSlice.error
+// reducer:
 export default ingredientsSlice.reducer;

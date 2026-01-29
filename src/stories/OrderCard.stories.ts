@@ -82,6 +82,5 @@ export const DefaultOrderCard: Story = {
         state: null
       }
     },
-    isLoading: true,
   }
 };

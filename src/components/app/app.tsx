@@ -4,11 +4,22 @@ import styles from './app.module.css';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route/ProtectedRoute';
+import { useEffect } from 'react';
+import { useDispatch } from '../../services/store';
+import { getIngredients } from '../../services/slices/ingredientsSlice';
 
 const App = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const background = location.state?.background;
+
+  const dispatch = useDispatch()
+
+  const navigate = useNavigate();
+  const closeModal = () => navigate(-1)
+
+  useEffect(() => {
+    dispatch(getIngredients())
+  }, [])
 
   return (
         <div className={styles.app}>
@@ -37,7 +48,7 @@ const App = () => {
               <Route
                 path="/ingredients/:id"
                 element={
-                  <Modal title="Детали ингредиента" onClose={() => navigate(-1)}>
+                  <Modal title="Детали ингредиента" onClose={closeModal}>
                     <IngredientDetails />
                   </Modal>
                 }
@@ -45,7 +56,9 @@ const App = () => {
               <Route
                 path="/feed/:number"
                 element={
-                  <Modal title="Заказ" onClose={() => navigate(-1)}>
+                  <Modal
+                  title={`#${location.pathname.split('/').pop()}`}
+                  onClose={closeModal}>
                     <OrderInfo />
                   </Modal>
                 }
@@ -53,7 +66,7 @@ const App = () => {
               <Route
                 path="/profile/orders/:number"
                 element={
-                  <Modal title="Детали заказа" onClose={() => navigate(-1)}>
+                  <Modal title="Детали заказа" onClose={closeModal}>
                     <OrderInfo />
                   </Modal>
                 }

@@ -5,7 +5,6 @@ export type OrderCardUIProps = {
   orderInfo: TOrderInfo;
   maxIngredients: number;
   locationState: { background: Location };
-  isLoading: boolean;
 };
 
 type TOrderInfo = {

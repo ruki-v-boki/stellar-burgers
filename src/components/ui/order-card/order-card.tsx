@@ -9,10 +9,9 @@ import styles from './order-card.module.css';
 
 import { OrderCardUIProps } from './type';
 import { OrderStatus } from '@components';
-import { Preloader } from '../preloader';
 
 export const OrderCardUI: FC<OrderCardUIProps> = memo(
-  ({ orderInfo, maxIngredients, locationState, isLoading }) => (
+  ({ orderInfo, maxIngredients, locationState }) => (
     <Link
       to={orderInfo.number.toString()}
       relative='path'
@@ -35,52 +34,47 @@ export const OrderCardUI: FC<OrderCardUIProps> = memo(
       )}
       <div className={`pt-6 ${styles.order_content}`}>
         <ul className={styles.ingredients}>
-          {isLoading ? (
-              <div className={styles.ingredients_loader}>
-                <Preloader />
-              </div>
-            ) : (
-            orderInfo.ingredientsToShow.map((ingredient, index) => {
-              let zIndex = maxIngredients - index;
-              let right = 20 * index;
-              return (
-                <li
-                  className={styles.img_wrap}
-                  style={{ zIndex: zIndex, right: right }}
-                  key={index}
-                >
-                  <img
-                    style={{
-                      opacity:
-                        orderInfo.remains && maxIngredients === index + 1
-                          ? '0.5'
-                          : '1'
-                    }}
-                    className={styles.img}
-                    src={ingredient.image_mobile}
-                    alt={ingredient.name}
-                  />
-                  {maxIngredients === index + 1 ? (
-                    <span
-                      className={`text text_type_digits-default ${styles.remains}`}
-                    >
-                      {orderInfo.remains > 0 ? `+${orderInfo.remains}` : null}
-                    </span>
-                  ) : null}
-                </li>
-              );
-            })
-          )}
+          {orderInfo.ingredientsToShow.map((ingredient, index) => {
+            let zIndex = maxIngredients - index;
+            let right = 20 * index;
+            return (
+              <li
+                className={styles.img_wrap}
+                style={{ zIndex: zIndex, right: right }}
+                key={index}
+              >
+                <img
+                  style={{
+                    opacity:
+                      orderInfo.remains && maxIngredients === index + 1
+                        ? '0.5'
+                        : '1'
+                  }}
+                  className={styles.img}
+                  src={ingredient.image_mobile}
+                  alt={ingredient.name}
+                />
+                {maxIngredients === index + 1 ? (
+                  <span
+                    className={`text text_type_digits-default ${styles.remains}`}
+                  >
+                    {orderInfo.remains > 0 ? `+${orderInfo.remains}` : null}
+                  </span>
+                ) : null}
+              </li>
+            );
+          })
+        }
         </ul>
         <div>
           <span
             className={`text text_type_digits-default pr-1 ${styles.order_total}`}
           >
-            {isLoading ? 'loading... ' : orderInfo.total}
+            {orderInfo.total}
           </span>
           <CurrencyIcon type='primary' />
         </div>
       </div>
     </Link>
-    )
-  );
+  )
+);

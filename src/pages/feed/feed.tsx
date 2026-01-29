@@ -1,22 +1,21 @@
 import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
-import { FC } from 'react';
-import { useFeeds } from '../../services/hooks/useFeeds';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from 'src/services/store';
-import { refreshFeeds } from '../../services/slices/feedSlice';
+import { FC, useEffect } from 'react';
+import { getFeeds, ordersFeedsSelector, isLoadingSelector } from '../../services/slices/feedSlice';
+import { useDispatch, useSelector } from '../../services/store';
 
 export const Feed: FC = () => {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
+  const orders = useSelector(ordersFeedsSelector)
+  const isFeedsLoading = useSelector(isLoadingSelector)
 
-  const {
-    orders,
-    isLoading,
-  } = useFeeds()
+  useEffect(() => {
+    dispatch(getFeeds())
+  }, [dispatch])
 
-  const handleReLoad = () => dispatch(refreshFeeds())
+  const handleReLoad = () => dispatch(getFeeds())
 
-  if (isLoading || !orders.length) {
+  if (isFeedsLoading || !orders.length) {
     return <Preloader />;
   }
 

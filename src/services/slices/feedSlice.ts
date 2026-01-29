@@ -8,7 +8,6 @@ type TFeedsState = {
     total: number,
     totalToday: number,
     isLoading: boolean,
-    wasLoaded: boolean,
     error: string | null,
 }
 
@@ -17,27 +16,12 @@ const initialState: TFeedsState = {
     total: 0,
     totalToday: 0,
     isLoading: false,
-    wasLoaded: false,
     error: null,
 }
 
 export const getFeeds = createAsyncThunk(
-  'feed/get',
+  'feeds/get',
   getFeedsApi,
-  {
-    condition: (_, { getState }) => {
-      const state = getState() as RootState;
-
-      return !state.feedsSlice.wasLoaded &&
-             !state.feedsSlice.isLoading &&
-             state.feedsSlice.orders.length === 0;
-    }
-  }
-);
-
-export const refreshFeeds = createAsyncThunk(
-  'feeds/refresh',
-  getFeedsApi
 );
 
 const feedsSlice = createSlice({
@@ -50,18 +34,7 @@ const feedsSlice = createSlice({
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(refreshFeeds.pending, (state) => {
-                state.isLoading = true;
-                state.error = null;
-            })
             .addCase(getFeeds.fulfilled, (state, action: PayloadAction<TFeedsResponse>) => {
-                state.isLoading = false;
-                state.wasLoaded = true;
-                state.orders = action.payload.orders;
-                state.total = action.payload.total;
-                state.totalToday = action.payload.totalToday;
-            })
-            .addCase(refreshFeeds.fulfilled, (state, action: PayloadAction<TFeedsResponse>) => {
                 state.isLoading = false;
                 state.orders = action.payload.orders;
                 state.total = action.payload.total;
@@ -69,21 +42,15 @@ const feedsSlice = createSlice({
             })
             .addCase(getFeeds.rejected, (state, action) => {
                 state.isLoading = false;
-                state.error = action.error.message || 'Ошибка загрузки';
+                state.error = action.error.message || 'Ошибка загрузки ленты заказов';
             })
-            .addCase(refreshFeeds.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.error.message || 'Ошибка обновления';
-            });
     },
-    selectors: {
-        orders: (state) => state.orders,
-        total: (state) => state.total,
-        totalToday: (state) => state.totalToday,
-        isLoading: (state) => state.isLoading,
-        error: (state) => state.error,
-    }
 })
-
-export const selectors = feedsSlice.selectors
+// selectors:
+export const ordersFeedsSelector = (state:RootState) => state.feedsSlice.orders
+export const totalSelector = (state:RootState) => state.feedsSlice.total
+export const totalTodaySelector = (state:RootState) => state.feedsSlice.totalToday
+export const isLoadingSelector = (state:RootState) => state.feedsSlice.isLoading
+export const errorSelector = (state:RootState) => state.feedsSlice.error
+// reducer:
 export default feedsSlice.reducer

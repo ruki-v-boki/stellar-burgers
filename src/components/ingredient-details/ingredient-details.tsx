@@ -1,21 +1,22 @@
 import { FC } from 'react';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
-import { useParams } from 'react-router-dom';
-import { useIngredients } from '../../services/hooks/useIngredients';
+import { useLocation, useParams } from 'react-router-dom';
+import { useSelector } from '../../services/store';
+import { ingredientsSelector, isLoadingSelector } from '../../services/slices/ingredientsSlice';
 
 export const IngredientDetails: FC = () => {
   const {id} = useParams<{id:string}>()
-  const {
-    ingredients,
-    isLoading,
-  } = useIngredients()
+  const location = useLocation();
+  const isModal = !!location.state?.background;
 
+  const ingredients = useSelector(ingredientsSelector)
+  const isIngredientsLoading = useSelector(isLoadingSelector)
   const ingredientData = ingredients.find(ing => ing._id === id);
 
-  if (isLoading || !ingredientData) {
+  if (isIngredientsLoading || !ingredientData) {
     return <Preloader />;
   }
 
-  return <IngredientDetailsUI ingredientData={ingredientData} />;
+  return <IngredientDetailsUI ingredientData={ingredientData} isModal={isModal}/>;
 };

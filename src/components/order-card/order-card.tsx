@@ -4,17 +4,15 @@ import { useLocation } from 'react-router-dom';
 import { OrderCardProps } from './type';
 import { TIngredient } from '@utils-types';
 import { OrderCardUI } from '../ui/order-card';
-import { useIngredients } from '../../services/hooks/useIngredients';
+import { useSelector } from '../../services/store';
+import { ingredientsSelector } from '../../services/slices/ingredientsSlice';
 
 const maxIngredients = 6;
 
 export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
   const location = useLocation();
 
-  const {
-    ingredients,
-    isLoading,
-  } = useIngredients()
+  const ingredients = useSelector(ingredientsSelector)
 
   const orderInfo = useMemo(() => {
     const ingredientsInfo = order.ingredients.reduce(
@@ -53,7 +51,6 @@ export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
       orderInfo={orderInfo}
       maxIngredients={maxIngredients}
       locationState={{ background: location }}
-      isLoading={isLoading}
     />
   );
 });
