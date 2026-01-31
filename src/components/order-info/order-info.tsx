@@ -3,26 +3,29 @@ import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useLocation, useParams } from 'react-router-dom';
-import { RootState, useDispatch, useSelector } from '../../services/store';
-import { clearOrder, getOrder, orderSelector, isLoadingSelector } from '../../services/slices/orderSlice';
+import { useDispatch, useSelector } from '../../services/store';
+import { getOrderByNumber, orderSelector, isLoadingSelector } from '../../services/slices/orderSlice';
 import { ordersFeedsSelector } from '../../services/slices/feedSlice';
+import { profileOrdersSelector } from '../../services/slices/profileOrdersSlice';
+import { ingredientsSelector } from '../../services/slices/ingredientsSlice';
+
 
 export const OrderInfo: FC = () => {
   const { number } = useParams()
   const location = useLocation()
+  const dispatch = useDispatch()
   const isModal = !!location.state?.background
 
-  const dispatch = useDispatch()
-
   const ordersFromFeed = useSelector(ordersFeedsSelector)
+  const ordersFromProfile = useSelector(profileOrdersSelector)
   const orderFromAPI = useSelector(orderSelector)
   const isOrderLoading = useSelector(isLoadingSelector)
+  const ingredients = useSelector(ingredientsSelector);
 
   const orderData = isModal
     ? ordersFromFeed.find(order => order.number.toString() === number)
+    || ordersFromProfile.find(order => order.number.toString() === number)
     : orderFromAPI;
-
-  const ingredients = useSelector((state:RootState) => state.ingredientsSlice.ingredients);
 
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
@@ -69,13 +72,8 @@ export const OrderInfo: FC = () => {
   useEffect(() => {
     if (number && !isModal) {
         const orderNumber = Number(number)
-        dispatch(getOrder(orderNumber))
+        dispatch(getOrderByNumber(orderNumber))
       }
-    return () => {
-      if (!isModal) {
-        dispatch(clearOrder());
-      }
-    };
   }, [dispatch, number, isModal]);
 
 

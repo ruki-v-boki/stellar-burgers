@@ -11,12 +11,14 @@ import { OrderCardUIProps } from './type';
 import { OrderStatus } from '@components';
 
 export const OrderCardUI: FC<OrderCardUIProps> = memo(
-  ({ orderInfo, maxIngredients, locationState }) => (
+  ({ orderInfo, maxIngredients, locationState, isNew = false}) => {
+    const isProfile = React.useRef(location.pathname === '/profile/orders').current;
+    return (
     <Link
       to={orderInfo.number.toString()}
       relative='path'
       state={locationState}
-      className={`p-6 mb-4 mr-2 ${styles.order}`}
+      className={`p-6 mb-4 mr-2 ${styles.order} ${isNew ? styles.new : ''}`}
     >
       <div className={styles.order_info}>
         <span className={`text text_type_digits-default ${styles.number}`}>
@@ -29,9 +31,7 @@ export const OrderCardUI: FC<OrderCardUIProps> = memo(
       <h4 className={`pt-6 text text_type_main-medium ${styles.order_name}`}>
         {orderInfo.name}
       </h4>
-      {location.pathname === '/profile/orders' && (
-        <OrderStatus status={orderInfo.status} />
-      )}
+      {isProfile && <OrderStatus status={orderInfo.status} />}
       <div className={`pt-6 ${styles.order_content}`}>
         <ul className={styles.ingredients}>
           {orderInfo.ingredientsToShow.map((ingredient, index) => {
@@ -76,5 +76,5 @@ export const OrderCardUI: FC<OrderCardUIProps> = memo(
         </div>
       </div>
     </Link>
-  )
+)}
 );

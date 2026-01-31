@@ -3,6 +3,7 @@ import { getFeedsApi, TFeedsResponse} from "@api";
 import { TOrder } from "@utils-types";
 import { RootState } from "../store";
 
+
 type TFeedsState = {
     orders: TOrder[],
     total: number,
@@ -19,10 +20,13 @@ const initialState: TFeedsState = {
     error: null,
 }
 
-export const getFeeds = createAsyncThunk(
-  'feeds/get',
-  getFeedsApi,
-);
+
+// ------------------------------------------------------------
+
+export const getFeeds = createAsyncThunk('feeds/get', getFeedsApi);
+
+// ------------------------------------------------------------
+
 
 const feedsSlice = createSlice({
     name: 'feeds',
@@ -34,7 +38,8 @@ const feedsSlice = createSlice({
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(getFeeds.fulfilled, (state, action: PayloadAction<TFeedsResponse>) => {
+            .addCase(getFeeds.fulfilled,
+                (state, action: PayloadAction<TFeedsResponse>) => {
                 state.isLoading = false;
                 state.orders = action.payload.orders;
                 state.total = action.payload.total;
@@ -42,15 +47,18 @@ const feedsSlice = createSlice({
             })
             .addCase(getFeeds.rejected, (state, action) => {
                 state.isLoading = false;
-                state.error = action.error.message || 'Ошибка загрузки ленты заказов';
+                state.error = action.error.message
+                || 'Ошибка загрузки ленты заказов';
             })
     },
 })
+
+
 // selectors:
-export const ordersFeedsSelector = (state:RootState) => state.feedsSlice.orders
-export const totalSelector = (state:RootState) => state.feedsSlice.total
-export const totalTodaySelector = (state:RootState) => state.feedsSlice.totalToday
-export const isLoadingSelector = (state:RootState) => state.feedsSlice.isLoading
-export const errorSelector = (state:RootState) => state.feedsSlice.error
+export const ordersFeedsSelector = (state: RootState) => state.feedsSlice.orders
+export const totalSelector = (state: RootState) => state.feedsSlice.total
+export const totalTodaySelector = (state: RootState) => state.feedsSlice.totalToday
+export const isLoadingSelector = (state: RootState) => state.feedsSlice.isLoading
+export const errorSelector = (state: RootState) => state.feedsSlice.error
 // reducer:
 export default feedsSlice.reducer

@@ -4,6 +4,7 @@ import { FC, useEffect } from 'react';
 import { getFeeds, ordersFeedsSelector, isLoadingSelector } from '../../services/slices/feedSlice';
 import { useDispatch, useSelector } from '../../services/store';
 
+
 export const Feed: FC = () => {
   const dispatch = useDispatch()
   const orders = useSelector(ordersFeedsSelector)

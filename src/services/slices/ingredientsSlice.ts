@@ -3,6 +3,7 @@ import { TIngredient } from "@utils-types";
 import { getIngredientsApi } from "@api";
 import { RootState } from "../store";
 
+
 type TIngredientsState = {
     ingredients: TIngredient[],
     isLoading: boolean,
@@ -15,10 +16,13 @@ const initialState: TIngredientsState = {
     error: null,
 }
 
-export const getIngredients = createAsyncThunk(
-  'ingredients/get',
-  getIngredientsApi,
-);
+
+// ------------------------------------------------------------
+
+export const getIngredients = createAsyncThunk('ingredients/get', getIngredientsApi);
+
+// ------------------------------------------------------------
+
 
 const ingredientsSlice = createSlice({
     name: 'ingredients',
@@ -30,21 +34,23 @@ const ingredientsSlice = createSlice({
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(getIngredients.fulfilled, (state, action: PayloadAction<TIngredient[]>) => {
+            .addCase(getIngredients.fulfilled,
+                (state, action: PayloadAction<TIngredient[]>) => {
                 state.isLoading = false;
                 state.ingredients = action.payload;
             })
             .addCase(getIngredients.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.error.message
-                ? `Упс: ${action.error.message}`
-                : 'Никто не знает в чём дело..';
+                || 'Ошибка загрузки ингредиентов'
             })
     },
 })
+
+
 // selectors:
-export const ingredientsSelector = (state:RootState) => state.ingredientsSlice.ingredients
-export const isLoadingSelector = (state:RootState) => state.ingredientsSlice.isLoading
-export const errorSelector = (state:RootState) => state.ingredientsSlice.error
+export const ingredientsSelector = (state: RootState) => state.ingredientsSlice.ingredients
+export const isLoadingSelector = (state: RootState) => state.ingredientsSlice.isLoading
+export const errorSelector = (state: RootState) => state.ingredientsSlice.error
 // reducer:
 export default ingredientsSlice.reducer;

@@ -1,0 +1,1 @@
+export { ModalConfirmLogoutUI } from './modalConfirmLogout'
