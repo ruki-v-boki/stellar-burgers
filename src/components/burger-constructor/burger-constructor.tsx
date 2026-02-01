@@ -41,6 +41,7 @@ export const BurgerConstructor: FC = () => {
       const createdOrder = response.order;
 
       dispatch(setOrderModalData(createdOrder));
+      dispatch(clearConstructor())
     } catch (err) {
       console.error('Ошибка при создании заказа:', err);
       dispatch(clearOrder());
@@ -50,9 +51,10 @@ export const BurgerConstructor: FC = () => {
   const closeOrderModal = () => {
     if (orderRequest) return
 
-    dispatch(clearConstructor())
     dispatch(clearOrder())
     dispatch(setOrderModalData(null))
+
+    navigate('/feed')
   };
 
 
