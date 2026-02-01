@@ -12,9 +12,10 @@ import { OrderStatus } from '@components';
 
 export const OrderCardUI: FC<OrderCardUIProps> = memo(
   ({ orderInfo, maxIngredients, locationState, isNew = false }) => {
-    const isProfile = React.useRef(
-      location.pathname === '/profile/orders'
-    ).current;
+    const isProfile = React.useMemo(
+      () => location.pathname.startsWith('/profile/orders'),
+      [location.pathname]
+    );
     return (
       <Link
         to={orderInfo.number.toString()}
