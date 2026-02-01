@@ -8,10 +8,7 @@ export const IngredientDetailsUI: FC<IngredientDetailsUIProps> = memo(
       ingredientData;
 
     return (
-      <div className={`${isModal
-      ? styles.content_modal
-      : styles.content}`
-      }>
+      <div className={`${isModal ? styles.content_modal : styles.content}`}>
         <img
           className={styles.img}
           alt='изображение ингредиента.'

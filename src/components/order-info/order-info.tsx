@@ -4,32 +4,35 @@ import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../services/store';
-import { getOrderByNumber, orderSelector, isLoadingSelector } from '../../services/slices/orderSlice';
+import {
+  getOrderByNumber,
+  orderSelector,
+  isLoadingSelector
+} from '../../services/slices/orderSlice';
 import { ordersFeedsSelector } from '../../services/slices/feedSlice';
 import { profileOrdersSelector } from '../../services/slices/profileOrdersSlice';
 import { ingredientsSelector } from '../../services/slices/ingredientsSlice';
 
-
 export const OrderInfo: FC = () => {
-  const { number } = useParams()
-  const location = useLocation()
-  const dispatch = useDispatch()
-  const isModal = !!location.state?.background
+  const { number } = useParams();
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const isModal = !!location.state?.background;
 
-  const ordersFromFeed = useSelector(ordersFeedsSelector)
-  const ordersFromProfile = useSelector(profileOrdersSelector)
-  const orderFromAPI = useSelector(orderSelector)
-  const isOrderLoading = useSelector(isLoadingSelector)
+  const ordersFromFeed = useSelector(ordersFeedsSelector);
+  const ordersFromProfile = useSelector(profileOrdersSelector);
+  const orderFromAPI = useSelector(orderSelector);
+  const isOrderLoading = useSelector(isLoadingSelector);
   const ingredients = useSelector(ingredientsSelector);
 
   const orderData = isModal
-    ? ordersFromFeed.find(order => order.number.toString() === number)
-    || ordersFromProfile.find(order => order.number.toString() === number)
+    ? ordersFromFeed.find((order) => order.number.toString() === number) ||
+      ordersFromProfile.find((order) => order.number.toString() === number)
     : orderFromAPI;
 
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
-    if (!orderData || !ingredients.length) return null
+    if (!orderData || !ingredients.length) return null;
 
     const date = new Date(orderData.createdAt);
 
@@ -71,11 +74,10 @@ export const OrderInfo: FC = () => {
 
   useEffect(() => {
     if (number && !isModal) {
-        const orderNumber = Number(number)
-        dispatch(getOrderByNumber(orderNumber))
-      }
+      const orderNumber = Number(number);
+      dispatch(getOrderByNumber(orderNumber));
+    }
   }, [dispatch, number, isModal]);
-
 
   if (isOrderLoading || !orderInfo) {
     return <Preloader />;

@@ -5,9 +5,9 @@ import { register } from '../../services/slices/authSlice';
 import { errorAuthSelector } from '../../services/slices/authSlice';
 
 export const Register: FC = () => {
-  const dispatch = useDispatch()
-  const error = useSelector(errorAuthSelector)
-  const errorMessage = error?.toString() || ''
+  const dispatch = useDispatch();
+  const error = useSelector(errorAuthSelector);
+  const errorMessage = error?.toString() || '';
 
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
@@ -16,7 +16,7 @@ export const Register: FC = () => {
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
 
-    dispatch(register({ name: userName, email, password }))
+    dispatch(register({ name: userName, email, password }));
   };
 
   return (

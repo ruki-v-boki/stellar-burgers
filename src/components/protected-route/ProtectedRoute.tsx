@@ -1,14 +1,18 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useSelector } from '../../services/store';
-import { isAuthCheckedSelector, getUserSelector } from '../../services/slices/authSlice';
+import {
+  isAuthCheckedSelector,
+  getUserSelector
+} from '../../services/slices/authSlice';
 import { Preloader } from '@ui';
 
-
 type TProtectedRouteProps = {
-    onlyUnAuth?: boolean,
-}
+  onlyUnAuth?: boolean;
+};
 
-export const ProtectedRoute = ({ onlyUnAuth = false }: TProtectedRouteProps) => {
+export const ProtectedRoute = ({
+  onlyUnAuth = false
+}: TProtectedRouteProps) => {
   const isAuthChecked = useSelector(isAuthCheckedSelector);
   const user = useSelector(getUserSelector);
   const location = useLocation();

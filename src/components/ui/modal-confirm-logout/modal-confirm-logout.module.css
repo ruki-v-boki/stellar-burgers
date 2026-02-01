@@ -1,10 +1,10 @@
 .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .button_container {
-    display: flex;
-    gap: 40px;
+  display: flex;
+  gap: 40px;
 }

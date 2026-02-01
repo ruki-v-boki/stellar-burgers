@@ -4,13 +4,12 @@ import { resetPasswordApi } from '@api';
 import { ResetPasswordUI } from '@ui-pages';
 import { Preloader } from '@ui';
 
-
 export const ResetPassword: FC = () => {
   const navigate = useNavigate();
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
   const [error, setError] = useState<Error | null>(null);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -22,10 +21,10 @@ export const ResetPassword: FC = () => {
         navigate('/login');
       })
       .catch((err) => {
-        setError(err)
+        setError(err);
       })
       .finally(() => {
-        setIsLoading(false)
+        setIsLoading(false);
       });
   };
 
@@ -36,8 +35,8 @@ export const ResetPassword: FC = () => {
   }, [navigate]);
 
   if (isLoading) {
-      return <Preloader />
-    }
+    return <Preloader />;
+  }
 
   return (
     <ResetPasswordUI

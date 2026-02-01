@@ -4,11 +4,10 @@ import { forgotPasswordApi } from '@api';
 import { ForgotPasswordUI } from '@ui-pages';
 import { Preloader } from '@ui';
 
-
 export const ForgotPassword: FC = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState<Error | null>(null);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -23,15 +22,15 @@ export const ForgotPassword: FC = () => {
         navigate('/reset-password', { replace: true });
       })
       .catch((err) => {
-        setError(err)
+        setError(err);
       })
       .finally(() => {
-        setIsLoading(false)
+        setIsLoading(false);
       });
   };
 
   if (isLoading) {
-    return <Preloader />
+    return <Preloader />;
   }
 
   return (

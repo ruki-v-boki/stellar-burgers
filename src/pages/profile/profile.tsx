@@ -1,16 +1,20 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
-import { errorAuthSelector, getUserSelector, isLoadingAuthSelector, updateUser } from '../../services/slices/authSlice';
+import {
+  errorAuthSelector,
+  getUserSelector,
+  isLoadingAuthSelector,
+  updateUser
+} from '../../services/slices/authSlice';
 import { useDispatch, useSelector } from '../../services/store';
 import { Preloader } from '@ui';
 
-
 export const Profile: FC = () => {
-  const dispatch = useDispatch()
-  const user = useSelector(getUserSelector)
-  const userError = useSelector(errorAuthSelector)
-  const userEerrorMessage = userError?.toString() || ''
-  const isAuthDataLoading = useSelector(isLoadingAuthSelector)
+  const dispatch = useDispatch();
+  const user = useSelector(getUserSelector);
+  const userError = useSelector(errorAuthSelector);
+  const userEerrorMessage = userError?.toString() || '';
+  const isAuthDataLoading = useSelector(isLoadingAuthSelector);
 
   const [formValue, setFormValue] = useState({
     name: '',
@@ -35,7 +39,7 @@ export const Profile: FC = () => {
     e.preventDefault();
 
     try {
-      await dispatch(updateUser(formValue)).unwrap()
+      await dispatch(updateUser(formValue)).unwrap();
     } catch (error) {
       console.log(`Не удалось обновить данные: ${error}`);
     }
@@ -58,7 +62,7 @@ export const Profile: FC = () => {
   };
 
   if (isAuthDataLoading) {
-    return <Preloader />
+    return <Preloader />;
   }
 
   return (

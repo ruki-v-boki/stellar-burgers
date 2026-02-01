@@ -81,6 +81,6 @@ export const DefaultOrderCard: Story = {
         search: '',
         state: null
       }
-    },
+    }
   }
 };

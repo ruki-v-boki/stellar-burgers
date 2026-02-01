@@ -42,10 +42,3 @@
   flex-direction: column;
   align-items: center;
 }
-
-.title_custom {
-  font-family: 'Iceland';
-  font-weight: normal;
-  font-size: 28px;
-  line-height: 1.1;
-}

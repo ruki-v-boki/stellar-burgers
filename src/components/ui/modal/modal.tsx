@@ -8,16 +8,19 @@ import { ModalOverlayUI } from '@ui';
 
 export const ModalUI: FC<TModalUIProps> = memo(
   ({ title, onClose, children }) => {
-
-    const customTitle = title.startsWith('#')
+    const customTitle = title.startsWith('#');
 
     return (
       <>
         <div className={styles.modal}>
           <div className={styles.header}>
-            <h3 className={customTitle
-            ? `${styles.title_custom} text text_type_main-large`
-            : `text text_type_main-large`}>
+            <h3
+              className={
+                customTitle
+                  ? ` text text_type_digits-default`
+                  : `text text_type_main-large`
+              }
+            >
               {title}
             </h3>
             <button className={styles.button} type='button'>

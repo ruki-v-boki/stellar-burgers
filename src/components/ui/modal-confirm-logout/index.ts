@@ -1,1 +1,1 @@
-export { ModalConfirmLogoutUI } from './modalConfirmLogout'
+export { ModalConfirmLogoutUI } from './modalConfirmLogout';

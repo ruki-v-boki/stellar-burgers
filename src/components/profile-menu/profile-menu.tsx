@@ -6,11 +6,10 @@ import { logout } from '../../services/slices/authSlice';
 import { Modal } from '../modal';
 import { ModalConfirmLogout } from '../modal-confirm-logout/modal-confirm-logout';
 
-
 export const ProfileMenu: FC = () => {
   const { pathname } = useLocation();
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showConfirm, setShowConfirm] = useState(false);
 
   const handleLogoutClick = () => {
@@ -38,14 +37,12 @@ export const ProfileMenu: FC = () => {
         <Modal title='Подтвердите выход ' onClose={handleCancelLogout}>
           <ModalConfirmLogout
             handleConfirm={handleConfirmLogout}
-            handleCancel={handleCancelLogout}/>
+            handleCancel={handleCancelLogout}
+          />
         </Modal>
       )}
 
-      <ProfileMenuUI
-        handleLogout={handleLogoutClick}
-        pathname={pathname}
-      />
+      <ProfileMenuUI handleLogout={handleLogoutClick} pathname={pathname} />
     </>
   );
 };

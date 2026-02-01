@@ -5,12 +5,11 @@ import { isLoadingAuthSelector, login } from '../../services/slices/authSlice';
 import { errorAuthSelector } from '../../services/slices/authSlice';
 import { Preloader } from '@ui';
 
-
 export const Login: FC = () => {
-  const dispatch = useDispatch()
-  const error = useSelector(errorAuthSelector)
-  const errorMessage = error?.toString() || ''
-  const isAuthDataLoading = useSelector(isLoadingAuthSelector)
+  const dispatch = useDispatch();
+  const error = useSelector(errorAuthSelector);
+  const errorMessage = error?.toString() || '';
+  const isAuthDataLoading = useSelector(isLoadingAuthSelector);
 
   const [email, setemail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,11 +17,11 @@ export const Login: FC = () => {
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
 
-    dispatch(login({ email, password }))
+    dispatch(login({ email, password }));
   };
 
   if (isAuthDataLoading) {
-    return <Preloader />
+    return <Preloader />;
   }
 
   return (

@@ -1,4 +1,4 @@
 export type ModalConfirmLogoutProps = {
-    handleConfirm: () => void;
-    handleCancel: () => void;
-}
+  handleConfirm: () => void;
+  handleCancel: () => void;
+};

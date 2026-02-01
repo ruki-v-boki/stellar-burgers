@@ -6,12 +6,11 @@ import { OrderCardUI } from '../ui/order-card';
 import { useSelector } from '../../services/store';
 import { ingredientsSelector } from '../../services/slices/ingredientsSlice';
 
-
 const maxIngredients = 6;
 
 export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
   const location = useLocation();
-  const ingredients = useSelector(ingredientsSelector)
+  const ingredients = useSelector(ingredientsSelector);
   const isNew = Date.now() - new Date(order.createdAt).getTime() < 30000;
 
   const orderInfo = useMemo(() => {
@@ -47,11 +46,11 @@ export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
   if (!orderInfo) return null;
 
   return (
-      <OrderCardUI
-        orderInfo={orderInfo}
-        maxIngredients={maxIngredients}
-        locationState={{ background: location }}
-        isNew={isNew}
-      />
+    <OrderCardUI
+      orderInfo={orderInfo}
+      maxIngredients={maxIngredients}
+      locationState={{ background: location }}
+      isNew={isNew}
+    />
   );
 });
