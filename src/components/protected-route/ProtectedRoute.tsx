@@ -16,9 +16,14 @@ export const ProtectedRoute = ({
   const isAuthChecked = useSelector(isAuthCheckedSelector);
   const user = useSelector(getUserSelector);
   const location = useLocation();
+  const isModal = location.state?.modal;
 
-  if (!isAuthChecked) {
+  if (!isAuthChecked && !isModal) {
     return <Preloader />;
+  }
+
+  if (!isAuthChecked && isModal) {
+    return null;
   }
 
   if (onlyUnAuth && user) {

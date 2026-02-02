@@ -29,7 +29,11 @@ export const BurgerConstructor: FC = () => {
     const hasIngredients =
       constructorItems.bun && constructorItems.ingredients.length > 0;
 
-    if (!user && hasIngredients) navigate('/login');
+    if (!user && hasIngredients) {
+      navigate('/login');
+      return;
+    }
+
     if (!constructorItems.bun || orderRequest) return;
 
     const orderData = [
