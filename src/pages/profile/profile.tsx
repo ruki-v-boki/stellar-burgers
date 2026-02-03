@@ -1,16 +1,24 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
+import {
+  errorAuthSelector,
+  getUserSelector,
+  isLoadingAuthSelector,
+  updateUser
+} from '../../services/slices/authSlice';
+import { useDispatch, useSelector } from '../../services/store';
+import { Preloader } from '@ui';
 
 export const Profile: FC = () => {
-  /** TODO: взять переменную из стора */
-  const user = {
-    name: '',
-    email: ''
-  };
+  const dispatch = useDispatch();
+  const user = useSelector(getUserSelector);
+  const userError = useSelector(errorAuthSelector);
+  const userEerrorMessage = userError?.toString() || '';
+  const isAuthDataLoading = useSelector(isLoadingAuthSelector);
 
   const [formValue, setFormValue] = useState({
-    name: user.name,
-    email: user.email,
+    name: '',
+    email: '',
     password: ''
   });
 
@@ -27,15 +35,21 @@ export const Profile: FC = () => {
     formValue.email !== user?.email ||
     !!formValue.password;
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+
+    try {
+      await dispatch(updateUser(formValue)).unwrap();
+    } catch (error) {
+      console.log(`Не удалось обновить данные: ${error}`);
+    }
   };
 
   const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
     setFormValue({
-      name: user.name,
-      email: user.email,
+      name: user?.name || '',
+      email: user?.email || '',
       password: ''
     });
   };
@@ -47,6 +61,10 @@ export const Profile: FC = () => {
     }));
   };
 
+  if (isAuthDataLoading) {
+    return <Preloader />;
+  }
+
   return (
     <ProfileUI
       formValue={formValue}
@@ -54,8 +72,7 @@ export const Profile: FC = () => {
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}
       handleInputChange={handleInputChange}
+      updateUserError={userEerrorMessage}
     />
   );
-
-  return null;
 };

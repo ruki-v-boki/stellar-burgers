@@ -11,12 +11,12 @@ import { OrderCardUIProps } from './type';
 import { OrderStatus } from '@components';
 
 export const OrderCardUI: FC<OrderCardUIProps> = memo(
-  ({ orderInfo, maxIngredients, locationState }) => (
+  ({ orderInfo, maxIngredients, locationState, isNew = false }) => (
     <Link
       to={orderInfo.number.toString()}
       relative='path'
-      state={locationState}
-      className={`p-6 mb-4 mr-2 ${styles.order}`}
+      state={{ ...locationState, modal: true }}
+      className={`p-6 mb-4 mr-2 ${styles.order} ${isNew ? styles.new : ''}`}
     >
       <div className={styles.order_info}>
         <span className={`text text_type_digits-default ${styles.number}`}>
@@ -29,7 +29,7 @@ export const OrderCardUI: FC<OrderCardUIProps> = memo(
       <h4 className={`pt-6 text text_type_main-medium ${styles.order_name}`}>
         {orderInfo.name}
       </h4>
-      {location.pathname === '/profile/orders' && (
+      {location.pathname.includes('/profile/orders') && (
         <OrderStatus status={orderInfo.status} />
       )}
       <div className={`pt-6 ${styles.order_content}`}>

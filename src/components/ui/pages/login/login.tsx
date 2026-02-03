@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import {
   Input,
   Button,
@@ -32,8 +32,8 @@ export const LoginUI: FC<LoginUIProps> = ({
               onChange={(e) => setEmail(e.target.value)}
               value={email}
               name='email'
-              error={false}
-              errorText=''
+              error={!!errorText}
+              errorText='Неверный e-mail'
               size='default'
             />
           </div>
