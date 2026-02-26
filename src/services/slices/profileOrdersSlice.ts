@@ -9,7 +9,7 @@ type TProfileOrdersState = {
   error: string | null;
 };
 
-const initialState: TProfileOrdersState = {
+export const initialState: TProfileOrdersState = {
   orders: [],
   isLoading: false,
   error: null
