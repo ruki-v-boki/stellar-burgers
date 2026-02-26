@@ -15,7 +15,15 @@ const config: JestConfigWithTsJest = {
               // настройки для ts-jest
             },
           ],
-        }
+        },
+        moduleNameMapper: {
+          '^@utils-types$': '<rootDir>/src/utils/types',
+          '^@api$': '<rootDir>/src/utils/burger-api.ts',
+          '^@slices/(.*)$': '<rootDir>/src/services/slices/$1',
+          '^@selectors/(.*)$': '<rootDir>/src/services/selectors/$1',
+          '\\.(css|less|scss|sass)$': 'identity-obj-proxy'
+        },
+        testEnvironment: 'jsdom',
 };
 
 export default config; 
